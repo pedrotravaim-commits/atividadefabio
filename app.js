@@ -16,6 +16,42 @@ app.get('/meunome', (req, res) => {
     res.send('Meu nome é Pedro Travaim')
 })
 
+app.get('/tico', (req, res) => {
+    res.send('teco')
+})
+
+app.get('/pokemons', (req, res) => {
+    const pokemons = [
+        "Caterpie", "Pidgeotto", "Spearow", "Krabby", "Muk",
+        "Tauros", "Lapras", "Snorlax", "Primeape", "Heracross"
+    ]
+    res.json(pokemons)
+})
+
+app.post('/series', (req, res) => {
+    const series = ["The 100", "Cobra kai", "Carrossel"]
+    res.json(series)
+})
+
+app.get('/bug', (req, res) => {
+    throw new Error("Bug simulado em produção!")
+})
+
+app.get('/pikachu', async (req, res) => {
+    try {
+        const resposta = await fetch('https://pokeapi.co/api/v2/pokemon/pikachu')
+        const dados = await resposta.json()
+        res.json({
+            nome: dados.name,
+            altura: dados.height,
+            peso: dados.weight,
+            tipos: dados.types.map(t => t.type.name)
+        })
+    } catch (erro) {
+        res.status(500).json({ erro: "Falha ao consultar a API" })
+    }
+})
+
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
 
